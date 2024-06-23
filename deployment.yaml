@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: test-ci-cd-web-app
+  labels:
+    app: test-ci-cd-web-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: test-ci-cd-web-app
+  template:
+    metadata:
+      labels:
+        app: test-ci-cd-web-app
+    spec:
+      serviceAccountName: test-ci-cd-web-app-sa
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: app
+                    operator: In
+                    values:
+                      - test-ci-cd-web-app
+              topologyKey: "kubernetes.io/hostname"
+      containers:
+      - name: test-ci-cd-web-app
+        image: aeerdna001/test-ci-cd-web-app:1.0.0
+        ports:
+        - containerPort: 8081
+        securityContext:
+          readOnlyRootFilesystem: true
+          runAsNonRoot: true
+          runAsUser: 1000
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "256Mi"
+          limits:
+            cpu: "500m"
+            memory: "512Mi"
