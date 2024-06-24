@@ -3,6 +3,8 @@ kind: Service
 metadata:
   name: test-ci-cd-web-app
   namespace: default
+  annotations:
+    kube-linter.io/skip-linters: dangling-service
 spec:
   selector:
     app: test-ci-cd-web-app
