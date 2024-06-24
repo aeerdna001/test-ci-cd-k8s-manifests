@@ -15,7 +15,6 @@ spec:
       labels:
         app: test-ci-cd-web-app
     spec:
-      serviceAccountName: test-ci-cd-web-app-sa
       affinity:
         podAntiAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
